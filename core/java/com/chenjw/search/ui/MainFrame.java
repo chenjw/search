@@ -5,17 +5,32 @@
 package com.chenjw.search.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.InputEvent;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +39,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -49,13 +66,14 @@ public class MainFrame extends JFrame {
     private JButton           searchButton;
     private JLabel            jLabel1;
 
-    private HistoryComboBox   searchWordComboBox;
+    private JComboBox         searchWordComboBox;
     private JTextArea         resultPane;
     private JPanel            configPanel      = new JPanel();
     private SearchManager     searchManager;
     // 用于异步执行任务
     private ExecutorService   executeService   = Executors.newSingleThreadExecutor();
-    private DataHandler dataHandler;
+    private DataHandler       dataHandler;
+
     private void initSpring() {
         ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
             "classpath*:search-tool.xml");
@@ -65,7 +83,7 @@ public class MainFrame extends JFrame {
         // 
 
         //
-        dataHandler=new DataHandler() {
+        dataHandler = new DataHandler() {
 
             @Override
             public void appendResult(String text) {
@@ -79,14 +97,22 @@ public class MainFrame extends JFrame {
             }
 
             @Override
-            public String getSearchWord() {
-                return searchWordComboBox.getText();
+            public String getSearchWord() {     
+                return (String)searchWordComboBox.getEditor().getItem();
+            }
+
+            @Override
+            public void setSuggest(List<String> suggest) {
+                suggest.add(0, (String)searchWordComboBox.getEditor().getItem());
+                ComboBoxModel historyComboBox1Model = new DefaultComboBoxModel(
+                    suggest.toArray(new String[suggest.size()]));
+                searchWordComboBox.setModel(historyComboBox1Model);
+                searchWordComboBox.setPopupVisible(true);
             }
 
         };
 
     }
-
 
     public MainFrame() {
         {
@@ -147,7 +173,16 @@ public class MainFrame extends JFrame {
         }
 
         {
-            searchWordComboBox = new HistoryComboBox("searchWord");
+            searchWordComboBox = new JComboBox();
+            searchWordComboBox.setEditable(true);
+            Component editorComponent = searchWordComboBox.getEditor().getEditorComponent();
+            editorComponent.addKeyListener(new KeyAdapter() {
+                public void keyReleased(KeyEvent evt) {
+                    System.out.println(3333);
+                    searchManager.suggest(dataHandler);
+                }
+            });
+
         }
         configPanelLayout.setVerticalGroup(configPanelLayout
             .createSequentialGroup()

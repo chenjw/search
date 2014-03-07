@@ -8,6 +8,6 @@ public interface SearchService {
     
     public List<SearchHit> search(String word);
     
-    public List<SearchHit> suggest(String word);
+    public List<String> suggest(String word);
    
 }

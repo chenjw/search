@@ -13,12 +13,14 @@ public class SearchManagerImpl implements SearchManager {
 
     public void search(DataHandler dataHandler) {
         List<SearchHit> r = searchService.search(dataHandler.getSearchWord());
+        dataHandler.clearResult();
         dataHandler.appendResult(JSON.toJSONString(r, true) + "\n");
     }
 
     @Override
     public void suggest(DataHandler dataHandler) {
-
+        List<String> r = searchService.suggest(dataHandler.getSearchWord());
+        dataHandler.setSuggest(r);
     }
 
     public void setSearchService(SearchService searchService) {

@@ -8,6 +8,8 @@ public class SearchHit {
     private String desc;
 
     private String keywords;
+    
+    private String serviceArea;
 
     public String getPublicId() {
         return publicId;
@@ -39,6 +41,14 @@ public class SearchHit {
 
     public void setKeywords(String keywords) {
         this.keywords = keywords;
+    }
+
+    public String getServiceArea() {
+        return serviceArea;
+    }
+
+    public void setServiceArea(String serviceArea) {
+        this.serviceArea = serviceArea;
     }
 
 }

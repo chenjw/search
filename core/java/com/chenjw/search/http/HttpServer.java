@@ -85,7 +85,7 @@ public class HttpServer implements InitializingBean {
                             }
                         }
 
-                        List<SearchHit> r = searchService.search(word);
+                        List<String> r = searchService.suggest(word);
                         StringEntity entity = new StringEntity(JSON.toJSONString(r, true),Charset.forName("GBK"));
                         response.setEntity(entity);
                     }

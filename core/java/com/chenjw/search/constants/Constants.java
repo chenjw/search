@@ -7,7 +7,6 @@ import net.paoding.analysis.analyzer.PaodingAnalyzer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.apache.lucene.util.AttributeImpl;
 
 public class Constants {
     public static final Analyzer CHINESE_ANALYZER=new PaodingAnalyzer();
