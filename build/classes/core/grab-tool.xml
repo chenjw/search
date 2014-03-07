@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans default-autowire="byName">
+
+
+	<bean id="imagegrabService" class="com.chenjw.imagegrab.service.impl.ImagegrabServiceImpl" >
+	</bean>
+
+
+	
+	<bean id="httpClient" class="com.chenjw.imagegrab.httpclient.SimpleHttpClient" init-method="init" >
+	</bean>
+	
+
+
+	<!-- 下面是动态组件部分的配置 -->
+	<bean class="com.chenjw.dynacomponent.ComponentManager">
+		<property name="containers">
+			<map>
+				<entry key="parser">
+					<bean
+						class="com.chenjw.imagegrab.container.ParserContainer" />
+				</entry>
+				<entry key="grabber">
+					<bean
+						class="com.chenjw.imagegrab.container.GrabberContainer" />
+				</entry>
+			</map>
+		</property>
+		<property name="builderMap">
+			<map>
+				<entry key="groovy">
+					<bean
+						class="com.chenjw.dynacomponent.builder.GroovyComponentBuilder" >
+						<property name="encoding" value="UTF-8" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+		<!-- 监听sharedata目录 -->
+		<property name="scanner">
+			<bean
+				class="com.chenjw.imagegrab.ui.CustomScanner">
+			</bean>
+		</property>
+	</bean>
+
+
+	
+</beans>

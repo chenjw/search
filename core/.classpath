@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="resources"/>
+	<classpathentry kind="src" path="java"/>
+	<classpathentry kind="src" path="config"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/search.lib/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/fastjson-1.1.17.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/sourceforge.spring-2.5.6.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/commons-io-1.4.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/groovy-all-1.8.0.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/jsoup-1.7.2.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/vtd-xml-2.11.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/dynaComponent-1.0.0.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/parser-1.0.0.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/httpclient-4.3.1.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/httpcore-4.3.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/httpmime-4.3.1.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/lucene-core-4.7.0.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/icu4j-52.1.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/lucene-analyzers-common-4.7.0.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/lucene-analyzers-icu-4.7.0.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/pinyin4j-2.5.0.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/lucene-analyzers-smartcn-4.7.0.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/lucene-queryparser-4.7.0.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/lucene-suggest-4.7.0.jar"/>
+	<classpathentry kind="lib" path="/search.lib/lib/javacsv.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
