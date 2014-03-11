@@ -51,4 +51,8 @@ public class SearchHit {
         this.serviceArea = serviceArea;
     }
 
+    public static void main(String[] args){
+        System.out.println(Character.isLetter('1'));
+        
+    }
 }
