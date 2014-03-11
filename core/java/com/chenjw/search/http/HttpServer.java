@@ -1,6 +1,8 @@
 package com.chenjw.search.http;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,6 +11,8 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.ConnectionClosedException;
 import org.apache.http.HttpException;
@@ -45,7 +49,7 @@ import com.chenjw.search.service.SearchService;
 import com.chenjw.search.service.impl.SearchServiceImpl;
 
 public class HttpServer implements InitializingBean {
-    private SearchService searchService = new SearchServiceImpl();
+    private SearchService searchService;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -72,7 +76,8 @@ public class HttpServer implements InitializingBean {
                         }
 
                         List<SearchHit> r = searchService.search(word);
-                        StringEntity entity = new StringEntity(JSON.toJSONString(r, true),Charset.forName("GBK"));
+                        StringEntity entity = new StringEntity(JSON.toJSONString(r, true), Charset
+                            .forName("GBK"));
                         response.setEntity(entity);
                     } else if (target.startsWith("/suggest?")) {
                         response.setStatusCode(HttpStatus.SC_OK);
@@ -86,8 +91,40 @@ public class HttpServer implements InitializingBean {
                         }
 
                         List<String> r = searchService.suggest(word);
-                        StringEntity entity = new StringEntity(JSON.toJSONString(r, true),Charset.forName("GBK"));
+                        StringEntity entity = new StringEntity(JSON.toJSONString(r, true), Charset
+                            .forName("GBK"));
                         response.setEntity(entity);
+                    }
+                    else if (target.startsWith("/suggesthtml?")) {
+                        response.setStatusCode(HttpStatus.SC_OK);
+                        String kvps = StringUtils.substringAfterLast(target, "?");
+                        String word = null;
+                        for (String kvp : StringUtils.split(kvps, "&")) {
+                            if (kvp.startsWith("w=")) {
+                                word = StringUtils.substringAfter(kvp, "w=");
+                                word = URLDecoder.decode(word, "UTF-8");
+                            }
+                        }
+
+                        List<String> r = searchService.suggest(word);
+                        String text=StringUtils.join(r, "<br/>");
+                        StringEntity entity = new StringEntity(text, Charset
+                            .forName("GBK"));
+                        response.setEntity(entity);
+                    }
+                    else {
+                        if("/".equals(target)){
+                            target="/index.html";
+                        }
+                        String path = "html" + target;
+                        InputStream is=this.getClass().getClassLoader().getResourceAsStream(path);
+                        if(is!=null){
+                            String text=IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream(path),"UTF-8");
+                            StringEntity entity = new StringEntity(text, Charset.forName("UTF-8"));
+                            response.setEntity(entity);
+                            is.close();
+                        }
+                        response.setHeader("Content-Type", "text/html");
                     }
 
                 } else {

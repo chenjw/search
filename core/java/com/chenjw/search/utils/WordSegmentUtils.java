@@ -34,7 +34,7 @@ public class WordSegmentUtils {
     }
     
     public static void main(String[] args) throws IOException{
-        String text="中国电信";
+        String text="海南航空";
         List<String> r=chineseSegment(text);
         for(String s:r){
             System.out.println(s);

@@ -25,6 +25,7 @@ import org.apache.lucene.util.Version;
 
 import com.chenjw.search.service.IndexService;
 import com.chenjw.search.utils.PinyinUtils;
+import com.chenjw.search.utils.SynonymsUtils;
 import com.chenjw.search.utils.WordSegmentUtils;
 import com.csvreader.CsvReader;
 
@@ -79,10 +80,21 @@ public class IndexServiceImpl implements IndexService {
                 List<String> words = WordSegmentUtils.chineseSegment(publicName);
                 keywords.addAll(words);
                 for (String word : words) {
+
                     // 拼音
                     keywords.add(PinyinUtils.toPinyin(word));
                     // 拼音首字母
                     keywords.add(PinyinUtils.toPinyinFirstLetter(word));
+                    // 同义词
+                    String[] synonymsWords = SynonymsUtils.getSynonyms(word);
+                    if (synonymsWords != null) {
+                        for (String synonymsWord : synonymsWords) {
+                            keywords.add(synonymsWord);
+                            keywords.add(PinyinUtils.toPinyin(synonymsWord));
+                            keywords.add(PinyinUtils.toPinyinFirstLetter(synonymsWord));
+                        }
+                    }
+
                 }
                 /// 名称
                 keywords.add(PinyinUtils.toPinyin(publicName));

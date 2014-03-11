@@ -22,6 +22,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.springframework.beans.factory.InitializingBean;
 
+import com.chenjw.search.constants.Constants;
 import com.chenjw.search.model.SearchHit;
 import com.chenjw.search.service.SearchService;
 
@@ -39,7 +40,7 @@ public class SearchServiceImpl implements SearchService, InitializingBean {
         try {
             query = parser.parse(word);
 
-            TopDocs topDocs = searcher.search(query, null, 20);
+            TopDocs topDocs = searcher.search(query, null, 10);
 
             for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
                 Document doc = searcher.doc(scoreDoc.doc);
@@ -65,7 +66,7 @@ public class SearchServiceImpl implements SearchService, InitializingBean {
         try {
             query = new PrefixQuery(new Term("keywords", word));
             
-            TopDocs topDocs = suggestSearcher.search(query, null, 10);
+            TopDocs topDocs = suggestSearcher.search(query, null, 5);
             for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
                 Document doc = suggestSearcher.doc(scoreDoc.doc);
                 r.add(doc.get("publicName"));
@@ -83,7 +84,7 @@ public class SearchServiceImpl implements SearchService, InitializingBean {
         searcher = new IndexSearcher(reader);
 
         parser = new MultiFieldQueryParser(Version.LUCENE_47, new String[] { "keywords" },
-            new SimpleAnalyzer(Version.LUCENE_47));
+            Constants.CHINESE_ANALYZER);
 
         IndexReader suggestReader = DirectoryReader.open(FSDirectory.open(new File(
             "/home/chenjw/test/search/suggest")));

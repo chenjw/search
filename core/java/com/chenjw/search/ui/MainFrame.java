@@ -178,7 +178,6 @@ public class MainFrame extends JFrame {
             Component editorComponent = searchWordComboBox.getEditor().getEditorComponent();
             editorComponent.addKeyListener(new KeyAdapter() {
                 public void keyReleased(KeyEvent evt) {
-                    System.out.println(3333);
                     searchManager.suggest(dataHandler);
                 }
             });

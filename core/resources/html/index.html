@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<title>公众号搜索</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script type="text/javascript" src="jquery-1.11.0.min.js"></script>
+<script type='text/javascript' src='jquery.liveSearch.js'></script>
+
+<link rel="stylesheet" type="text/css" href="jquery.liveSearch.css" />
+	
+
+	
+</head>
+
+<body>
+<style>
+
+#searchbox {
+ 	width:300px;
+}
+
+</style>
+
+<script>
+	
+$(document).ready(function(){
+  $("#searchbutton").click(function(){
+  	var w=$("#searchbox").val();
+  	var htmlobj=$.ajax({
+  		url:"search?w="+w,
+  		dataType: "json",
+  		contentType: "application/json; charset=gbk",
+  		success: function(data) {
+  			var text="";
+			$.each(data, function(i, item) {
+                text+="<p>"+item.publicId+" "+item.serviceArea+" "+item.name+"</p>";
+			});
+			$("#searchresult").html(text);
+		}
+   	});     
+                    
+  
+  	
+  });
+});
+</script>
+
+<input type="text" id="searchbox" />
+
+
+<input type="button" value="search" id="searchbutton"/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<div id="searchresult">
+</div>
+<script type="text/javascript">
+	$("#searchbox").liveSearch({
+		url: 'suggesthtml?w='
+		
+	});
+
+
+</script>
+</body>
+</html>
